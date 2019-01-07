@@ -138,7 +138,7 @@ After center is reached, we raise a `True` flag to the topic `/center_reached` t
 At the same time we start an countdown counter in the case that we don’t receive a message that pick task has finished.
 If the counter has reached zero or we have received a message that pick task has finished, the robot has to perform the second task of autonomous navigation.
 
-<img  width="600"  src="https://github.com/jstefanis/solid_navigation-robotics-project/blob/master/assets/alvar.png">
+<img  width="400"  src="https://github.com/jstefanis/solid_navigation-robotics-project/blob/master/assets/alvar.png">
 
 
 For this task we have used **ar_track_alvar** package.
