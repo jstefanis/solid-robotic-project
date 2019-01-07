@@ -32,6 +32,7 @@ Robot Operating System is robotics middleware initially developed from Willow Ga
 Although ROS is not an operating system, it provides services designed for a heterogeneous computer cluster such as hardware abstraction, low-level device control, implementation of commonly used functionality, message-passing between processes, and package management. The version of ros we will use is **Indigo**, which is old but stable and feature rich.
 
 **Robotic Hand**
+![pincher](assets/pincher.jpg)
 The PhantomX Pincher  Robot Arm is a 4 degree-of-freedom robotic arm and an easy addition to the TurtleBot ROS robot platform. Its task is pick-and-place operation.
 We have two robotic arms in our Scenario.
 
