@@ -74,6 +74,9 @@ Autonomous navigation
 Visual Servoing
 Pick and Place function.
 
+<img  width="600"  src="https://github.com/jstefanis/solid_navigation-robotics-project/blob/master/assets/plateau.png">
+
+
 ### Autonomous Navigation
 This is the part we had to implement.
 We have the robotic plateau where the scenario will take place.
