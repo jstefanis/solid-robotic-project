@@ -1,0 +1,36 @@
+<launch>
+  <!-- include AR tracker launch file -->
+  <include file = "$(find solid_navigation)/launch/ar_tracker.launch" > 
+  </include>
+ 
+  <include file = "$(find solid_navigation)/launch/map_navigation_stage.launch" > 
+  </include>
+
+   <!-- alternative task flag node -->
+  <node pkg = "solid_navigation" name = "alt_pick_message" type = "alt_pick_message.py">
+  </node> 
+
+
+   <!-- alternative task flag node -->
+  <node pkg = "solid_navigation" name = "last_navigation_goal" type = "last_navigation_goal.py">
+  </node> 
+
+   <!-- alternative task flag node -->
+  <node pkg = "solid_navigation" name = "return_from_pick_point" type = "return_from_pick_point.py">
+  </node> 
+  
+   <!-- start launch manager to control kinect operation -->
+  <node pkg = "solid_navigation" name = "launch_manager" type = "launch_manager.py">
+  </node> 
+ 
+  <!-- start node to go to the central position of map -->
+  <node pkg = "solid_navigation" name = "goto_starting_pose" type = "goto_starting_pose.py">
+  </node> 
+  <!-- start localization node -->
+  <node pkg="solid_navigation" name="tag_pose_localisation" type="tag_pose_localisation.py" output="screen">
+  </node>
+
+    <!-- start rotate node -->
+    <node pkg="solid_navigation" name="rotate_for_detection" type="rotate_for_detection.py">
+    </node>
+</launch>

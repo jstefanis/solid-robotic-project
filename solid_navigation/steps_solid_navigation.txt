@@ -1,0 +1,42 @@
+todo
+
+parameters
+
+4 alvar tags
+
+tag_0 => tag at the end of the plateau
+tag_1 => tag in front of the pickup table
+tag_2 => tag at the opossite side of the pickup table
+tag_3 => tag in front of place table
+
+Steps
+
+0 initialize parameters and launch python script by a .launch file (done)
+1 set initial pose by code (done)
+2 Launch amcl.launch by code
+3 navigate at the center of the vibot plateau by using acml and a set of coordinates
+
+3.5 --if there is conflict between alvar tags detection and amcl --stop amcl.launch by code )
+
+4. check for the ar_tag at the end of the vibot_plateau (tag_0) if it can be detected
+
+5. rotate 90 deg ccw to detect the ar tag in front of the pickup tavle (tag_1)
+
+6. when both tags are detected publish a message that the robot is ready for visual servoing
+
+7. stop and wait for a message that vs and pick-and-place operations have finished.
+
+8. when this message is received, rotate the robot 180 degrees and detect the third alvar tag on the opossite
+side of the pickup table.
+
+9 if correctly detected move to its detection for n meters. (approximate the center of the plateau)
+
+10 when arrived, rotate ccw for 90 degrees and detect the alvar tag at the end of the plateau
+
+11 move in the direction of the alvar tag and stop.
+
+12. rotate 90 deg cw and detect the final tag at the place table
+
+13. publish a message that the turtlebot is ready for vs
+
+14 print on the log "finish"
