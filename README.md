@@ -316,8 +316,8 @@ This topic has a callback function when a tag is detected with the name `get_tag
 
 This function is configured to detect three tags with the `id` **[0,1,2]**. In the case that any other tags exist on the scene, they are simply ignored. These three tags are positioned at these points:
 
-**Tag 0** in front of the pick table. <br>
-**Tag 1** at the point where the robot has to approach and turn to face the place table. <br>
+**Tag 0** at the point where the robot has to approach and turn to face the place table. <br>
+**Tag 1** in front of the pick table. <br>
 **Tag 2** in the opposite side of the pick table <br>
 
 The function starts a tag counter and stops the detection when all the  referenced ids’ are detected. For each tag detected it raises a flag that it is detected and takes the average of three measurements for calculating the position of it.
