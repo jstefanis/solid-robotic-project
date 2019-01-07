@@ -393,7 +393,13 @@ We lost really invaluable time for trivial things because the documentation is d
 # Videos
 
 	Video 1: The first part of navigation testing
+	
+<div align="center">
+  <a href="https://www.youtube.com/watch?v=YM42SJ0Bfb0"><img src="https://img.youtube.com/vi/YM42SJ0Bfb0/0.jpg" alt="part 1 of robot nav"></a>
+</div>	
 	[![YOUTUBE VIDEO](https://www.youtube.com/watch?v=YM42SJ0Bfb0)
+	
+	
 
 	Video 2: The second part of navigation testing
 	[![YOUTUBE VIDEO](https://www.youtube.com/watch?v=s1dd4b7uDmw)
