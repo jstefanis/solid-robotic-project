@@ -1,3 +1,4 @@
+<p style="text-align: center;"> 
 Final Report for Robotics Course
 
 Stefanis Ioannis (jstefanis@teicrete.gr)
@@ -5,6 +6,7 @@ Jamilou Soulaiman (jamilu.sulaiman2602@gmail.com)
 
 MsCV2 2018-2019
 Universite de Bourgogne
+ </p>
 
 
 # Table of Contents
@@ -25,7 +27,7 @@ This philosophy of this project aims to the better understanding of the various 
 The problem consists of the implementation of a scenario exposing the ability of collaboration
 and autonomous operation of turtlebot robotic platform, along with the robotic hand in conjunction with robot operating system (ROS).
 
-Components:
+### Components:
 
 Ros
 Robot Operating System is robotics middleware initially developed from Willow Garage and Stanford Artificial Intelligence Laboratory. Its first release was at 2007 and its last stable release is Melodic Morenia in May 2018.
@@ -65,7 +67,7 @@ Autonomous navigation
 Visual Servoing
 Pick and Place function.
 
-Autonomous Navigation
+### Autonomous Navigation
 This is the part we had to implement.
 We have the robotic plateau where the scenario will take place.
 In this plateau we have two tables with an robotic hand attached on both.
@@ -76,7 +78,7 @@ Then, it precisely places itself in front of the place table.
 The last part of the scenario is the retrieval of the object from the top of the turtlebot by the second robotic hand and the placement of it on the table.
 In the whole scenario there is implementation of autonomous navigation, visual servoing and also collaboration between the robotic hand and the turtlebot.
 
-Our part of the scenario
+### Our part of the scenario
 Our groups’ responsibility is the autonomous navigation of the turtlebot in the plateau and accessing  a point where the second group will perform the visual servoing part for precision positioning in front of the tables.
 
 The autonomous navigation operation is split in two similar parts.
@@ -88,19 +90,19 @@ As an safety switch, an countdown time counter is implemented in the case that f
 
 
 
-Overview of Mapping and Navigation
+### Overview of Mapping and Navigation
 For the implementation of our part of the scenario we used various packages directly available online. We also decided to use python, a really fast and effective programming language.
 
 Our plan is split in two parts.
 Autonomous navigation and Mapping
 For this task we used the ros navigation stack packages with the addition of amcl and ar_tags packages as helpers for navigating and mapping.
 
-Mapping
+### Mapping
 Our first task was to create a map of the robotic plateau for the robot to be able to navigate.
 For this part we used the map server service and we manually surveyed the turtlebot inside the plateau in order to have an  map with the surrounding environment. After finishing this task we stored the resulting map and checked if it was alright.
 The reason for mapping is that by using a map as a reference we can move to the second part, the navigation task.
 
-Navigation
+### Navigation
 Even if we give the initial pose of the robot and also the coordinates for the different tasks, due to sensor errors and drift, in a short time the robot will be offset in an different position in the map 
 regardless how well the mapping task was performed.
 For this reason we have to compensate the various noisy factors by using an process that will simultaneously correct the robot position on the map.
@@ -108,10 +110,10 @@ For this reason we have to compensate the various noisy factors by using an proc
 After using rviz visualisation application we were able to get the initial pose coordinates to the map and also the coordinates for our interest points.
 
 Our  points of interest are:
-The initial position of the robot.
-The center of the robotic plateau.
+* The initial position of the robot.
+* The center of the robotic plateau.
 
-The navigation path is as follows:
+##### The navigation path is as follows:
 First the robot gets its initial pose from an configuration script.
 It also takes the coordinates for the second point that it will reach, the center.
 By using move_base package we order the robot to reach the center of the robotic plateau.
@@ -127,7 +129,7 @@ After using the coordinates given by the ar_track_alvar, the robot moves to a sp
 
 # Detailed description of the steps for navigation and mapping
 
-Step 1 Creation of a Map
+#### Step 1 Creation of a Map
 Initialization on the turtlebot and workstation
 At first we run some scripts to initialize the turtlebot platform and store the created map
 After sourcing and initializing environmental variables:
@@ -141,10 +143,11 @@ In the turtlebot we run:
 
 In the workstation we launch logitech teleoperation node:
 > roslaunch turtlebot_teleop logitech.launch --screen
+
 Now we are able to manually navigate into the robotic plateau by using logitech game joystick.
 
 
-Initialization of the map server
+### Initialization of the map server
 
 The next step is to launch the map server service to be able to map the environment on a 2d map.
 
@@ -156,8 +159,7 @@ According to the roswiki documentation
 Instead of using a laser sensor, we use the kinect sensor in simulation mode.
 
 Next command initializes map_server which will save the resulting map into the referenced folder.
-> rosrun map_server map_saver -f
- /home/turtlebot/ros/indigo/catkin_ws/src/solid_navigation/maps/map
+> rosrun map_server map_saver -f /home/turtlebot/ros/indigo/catkin_ws/src/solid_navigation/maps/map
 
 We have to be careful and put the full path of the folder unless we want to get in trouble.
 
@@ -168,27 +170,27 @@ We launch the rviz visualisation application to be able to see what the robot �
 
 This script launches the map server and stores two files into the folder maps. The files are map.yaml and map.pgm. The file map.yaml contains the metadata about our map:
 
-**
-image: map.pgm
+
+**image: map.pgm
 resolution: 0.050000
 origin: [-13.800000, -13.800000, 0.000000]
 negate: 0
 occupied_thresh: 0.65
-free_thresh: 0.196
-**
+free_thresh: 0.196**
+
 The first line references to the image of the map (map.pgm) and the rest of the map metadata are useful for the turtlebot to interpret it.
 
 Now by using the logitech gamepad we have to navigate the whole robotic plateu to create an useful map for our robot.
 When we are satisfied that we covered the full room, we press Control+C on the terminal to save the map and stop the map server.
 
-Step 2 Definition of the points of interest
+#### Step 2 Definition of the points of interest
 By using rviz we can get the coordinates of our map of our points of interest.
 We click the mouse on these points and we look carefully at the open terminal to get the coordinates. The coordinates of the clicked point are published in the topic “/clicked_point”.
 We retrieve the coordinates of the initial position of the turtlebot and also the coordinates of the center.
 We store them at the file map_navigation_stage.launch
 Now we have a set of coordinates useful for performing the first task of autonomous navigation and mapping.
 
-Step 3 Navigation to the center
+#### Step 3 Navigation to the center
 In this step we position the turtlebot at the initial pose at the corridor outside the robotic plateau.
 First we restart everything.
 We give again the following orders to initialize it:
@@ -206,7 +208,7 @@ In the workstation we launch rviz visualization to be able to see what also the 
 In the workstation:
 > roslaunch turtlebot_rviz_launchers view_navigation.launch
 
-Initialization of the launchfiles
+##### Initialization of the launchfiles
 Inside the folder launch we have the various launch files which start other launch files and also the nodes of our package.
 The main launch file is called “initialize_scripts.launch” and is responsible for initializing the environment, starting the nodes and passing the various arguments and parameters. This file also calls the rest of the launch files that exist inside the folder and perform the various initialization subtasks. 
 
@@ -243,7 +245,7 @@ For the correct use of the local and the global frame of coordinates in the file
 At the end of the visual servoing and pick the robot is positioned with its back in front of the pick table. 
 After the pick flag has raised, the robot will move back to the center of the plateau to start the second part of the navigation.
 
-Step 4 Navigation from the center to the “place” position
+#### Step 4 Navigation from the center to the “place” position
 
  When the pick task has finished and the flag on the topic has been detected, the robot will return to the center position again.
 This task is implemented with return_from_pick_point node.
@@ -251,7 +253,7 @@ This node is similar to “go_to_starting_pose node” and subscribes both to �
 When it receives a True flag from one of this topics it returns at the previous position on the center and publishes a topic called “/ready_for_nav_second_task” and sets its flag to True when it reaches its goal.
 At this point we have finished with the first part of the navigation task.
 
-Step 5 Detecting ar_tags and navigating to the final target
+#### Step 5 Detecting ar_tags and navigating to the final target
 
 In this point the turtlebot is at the center of the plateau. It is time for the turtlebot to disable amcl navigation and start navigation by using ar tags which are provided by the package ar_track_alvar.
 The process of ar_tags creation will be described at the end of this section.
@@ -261,7 +263,7 @@ At this point the node rotate_for_detection.py is activated. When it receives th
 This flag is also used for “tag_pose_localisation” script which starts the tag detection during the rotation of the turtlebot.
 At the end of this rotation the available tags must have been detected.
 
-Step 6 the “tag_pose_localisation” node and the ar_tag detection
+#### Step 6 the “tag_pose_localisation” node and the ar_tag detection
  In this step we have the “tag_pose_localisation” node active for detecting the existing tags at the robotic plateau.
 This node subscribes at two topics. The first topic is “/rotation_flag” which starts the ar_tag detection when True. The second topic is “/amcl_pose” which gets the last pose of the amcl  navigation and stores it as the current position of the turtlebot.
 The function “get_turtlePose” is a callback for the “/amcl_pose” subscription topic. This function returns the current orientation (z,w,angle) and the position (x,y,z) of the turtlebot.
@@ -301,11 +303,11 @@ After 20 seconds of the raising of this flag, the last_navigation_goal node publ
 With this topic we can give control to the visual servoing group for precise positioning of the turtlebot in front of the place table. 
 
 # Packages we used
-amcl: amcl is a probabilistic localization system for a robot moving in 2D. It implements the adaptive (or KLD-sampling) Monte Carlo localization approach (as described by Dieter Fox), which uses a particle filter to track the pose of a robot against a known map. which uses a particle filter to track the pose of a robot against a known map”,
+**amcl**: amcl is a probabilistic localization system for a robot moving in 2D. It implements the adaptive (or KLD-sampling) Monte Carlo localization approach (as described by Dieter Fox), which uses a particle filter to track the pose of a robot against a known map. which uses a particle filter to track the pose of a robot against a known map”,
 
-tf: for transformations between different coordinate reference frames,but also for transforms from euler to quartenion angles
+**tf**: for transformations between different coordinate reference frames,but also for transforms from euler to quartenion angles
 
-ar_track_alvar: This package is used for the creation of the alvar tags, their detection and pose estimation. It is a wrapper of Alvar, an open source AR tag tracking library. Its main functionalities are:
+**ar_track_alvar**: This package is used for the creation of the alvar tags, their detection and pose estimation. It is a wrapper of Alvar, an open source AR tag tracking library. Its main functionalities are:
 1. Generating AR tags of varying size, resolution, and data/ID encoding
 2. Identifying and tracking the pose of individual AR tags, optionally integrating kinect depth data (when a kinect is available) for better pose estimates.
 3. Identifying and tracking the pose of "bundles" consisting of multiple tags. This allows for more stable pose estimates, robustness to occlusions, and tracking of multi-sided objects.
