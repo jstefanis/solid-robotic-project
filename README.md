@@ -138,6 +138,9 @@ After center is reached, we raise a `True` flag to the topic `/center_reached` t
 At the same time we start an countdown counter in the case that we don’t receive a message that pick task has finished.
 If the counter has reached zero or we have received a message that pick task has finished, the robot has to perform the second task of autonomous navigation.
 
+<img  width="600"  src="https://github.com/jstefanis/solid_navigation-robotics-project/blob/master/assets/alvar.png">
+
+
 For this task we have used **ar_track_alvar** package.
 This packages gives us the ability to use Augmented Reality Fiducials in a form of printed marks which are strategically positioned in the plateau to be able to position the robot correctly. 
 
@@ -206,6 +209,8 @@ Now by using the logitech gamepad we have to navigate the whole robotic plateu t
 When we are satisfied that we covered the full room, we press Control+C on the terminal to save the map and stop the map server.
 
 #### Step 2 Definition of the points of interest
+
+<img  width="600"  src="https://github.com/jstefanis/solid_navigation-robotics-project/blob/master/assets/rviz0.jpeg">
 By using rviz we can get the coordinates of our map of our points of interest.
 We click the mouse on these points and we look carefully at the open terminal to get the coordinates. The coordinates of the clicked point are published in the topic `/clicked_point`.
 
