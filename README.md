@@ -207,6 +207,8 @@ The first line references to the image of the map (map.pgm) and the rest of the 
 
 Now by using the logitech gamepad we have to navigate the whole robotic plateu to create an useful map for our robot.
 When we are satisfied that we covered the full room, we press Control+C on the terminal to save the map and stop the map server.
+<img align="center" width="300"  src="https://github.com/jstefanis/solid_navigation-robotics-project/blob/master/assets/map.jpg">
+
 
 #### Step 2 Definition of the points of interest
 
