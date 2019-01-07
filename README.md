@@ -30,9 +30,9 @@ and autonomous operation of turtlebot robotic platform, along with the robotic h
 **ROS** 
 Robot Operating System is robotics middleware initially developed from Willow Garage and Stanford Artificial Intelligence Laboratory. Its first release was at 2007 and its last stable release is Melodic Morenia in May 2018.
 Although ROS is not an operating system, it provides services designed for a heterogeneous computer cluster such as hardware abstraction, low-level device control, implementation of commonly used functionality, message-passing between processes, and package management. The version of ros we will use is **Indigo**, which is old but stable and feature rich.
-
+ 
 **Robotic Hand**
-<img align="right" width="300"  src="https://github.com/jstefanis/solid_navigation-robotics-project/blob/master/assets/pincher.jpg">
+<img  width="300"  src="https://github.com/jstefanis/solid_navigation-robotics-project/blob/master/assets/pincher.jpg">
 
 The PhantomX Pincher  Robot Arm is a 4 degree-of-freedom robotic arm and an easy addition to the TurtleBot ROS robot platform. Its task is pick-and-place operation.
 We have two robotic arms in our Scenario.
