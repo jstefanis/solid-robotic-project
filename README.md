@@ -38,10 +38,15 @@ The PhantomX Pincher  Robot Arm is a 4 degree-of-freedom robotic arm and an easy
 We have two robotic arms in our Scenario.
 
 **Turtlebot 2**
+
+<img  width="300"  src="https://github.com/jstefanis/solid_navigation-robotics-project/blob/master/assets/download.jpeg">
+
 TurtleBot is a low-cost, personal robot kit with open-source software. TurtleBot was created at Willow Garage by Melonee Wise and Tully Foote in November 2010.
 Its task is the autonomous navigation and transfer of an object from the `pick position` to the “place position”
 
 **Kinect Sensor**
+<img  width="300"  src="https://github.com/jstefanis/solid_navigation-robotics-project/blob/master/assets/images.jpeg">
+
 Kinect is an consumer line motion sensing device developed by Microsoft for Xbox360 and Xbox One platforms and released on November 2010.  Turtlebot is equipped with kinect v1 sensor device.
 Kinect v1 is a cheap but very effective sensor, able to track simultaneously six people and 24 skeletal joints per person. It will used for autonomous localization and tracking using amcl ros package.
 
