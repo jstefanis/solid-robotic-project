@@ -1,18 +1,16 @@
-<p style="text-align: center;"> 
-Final Report for Robotics Course
+# Final Report for the Robotics Course
 
-Stefanis Ioannis (jstefanis@teicrete.gr)
-Jamilou Soulaiman (jamilu.sulaiman2602@gmail.com)
+### Stefanis Ioannis (jstefanis@teicrete.gr)
+### Jamilou Soulaiman (jamilu.sulaiman2602@gmail.com)
 
-MsCV2 2018-2019
-Universite de Bourgogne
- </p>
+#### MsCV2 2018-2019
+#### Universite de Bourgogne
 
 
 # Table of Contents
 
 1. Preface
-2.Description of the Problem
+2. Description of the Problem
 3. Structure of the project
 4. The Scenario
 5. Detailed description of the steps for navigation and mapping
@@ -29,7 +27,7 @@ and autonomous operation of turtlebot robotic platform, along with the robotic h
 
 ### Components:
 
-Ros
+ROS
 Robot Operating System is robotics middleware initially developed from Willow Garage and Stanford Artificial Intelligence Laboratory. Its first release was at 2007 and its last stable release is Melodic Morenia in May 2018.
 Although ROS is not an operating system, it provides services designed for a heterogeneous computer cluster such as hardware abstraction, low-level device control, implementation of commonly used functionality, message-passing between processes, and package management. The version of ros we will use is “Indigo”, which is old but also stable and feature rich.
 
@@ -113,7 +111,7 @@ Our  points of interest are:
 * The initial position of the robot.
 * The center of the robotic plateau.
 
-##### The navigation path is as follows:
+#### The navigation path is as follows:
 First the robot gets its initial pose from an configuration script.
 It also takes the coordinates for the second point that it will reach, the center.
 By using move_base package we order the robot to reach the center of the robotic plateau.
@@ -171,12 +169,12 @@ We launch the rviz visualisation application to be able to see what the robot �
 This script launches the map server and stores two files into the folder maps. The files are map.yaml and map.pgm. The file map.yaml contains the metadata about our map:
 
 
-**image: map.pgm
-resolution: 0.050000
-origin: [-13.800000, -13.800000, 0.000000]
-negate: 0
-occupied_thresh: 0.65
-free_thresh: 0.196**
+**image: map.pgm**
+**resolution: 0.050000**
+**origin: [-13.800000, -13.800000, 0.000000]**
+**negate: 0**
+**occupied_thresh: 0.65**
+**free_thresh: 0.196**
 
 The first line references to the image of the map (map.pgm) and the rest of the map metadata are useful for the turtlebot to interpret it.
 
@@ -229,26 +227,33 @@ We couldn’t find a way to have kinect sensor to work simultaneously in particl
 So for the part of using amcl package we have to launch the respective launch file (amcl_demo.launch). For the part of ar_tag recognition we have to launch freenect.launch.
 The solution we found for this conflict was to use roslaunch library and create a python script called launch_manager.py inside scripts folder.
 This script manages the launching and killing of the different launch files. 
-For this script to operate we created a topic called “ready_for_nav_second_task” which when it’s true, the amcl launch file is killed programmaticaly by the script. After this, a true flag is enabled to the topic called “freenect_nav_started”. The script initializes the freenect_launch file to start ar_tag detection.
+For this script to operate we created a topic called “ready_for_nav_second_task” which when it’s true, the amcl launch file is killed programmaticaly by the script. After this, a true flag is enabled to the topic called “freenect_nav_started”. 
+The script initializes the freenect_launch file to start ar_tag detection.
+
 So for the first part of navigation we launch the amcl_demo.launch file programmaticaly and we start the navigation by setting the initial pose of the robot on the map and also the first goal which is on the center. These point coordinates exist in the file map_navigation_stage.launch
 
-The python script responsible for the first part of the navigation is named goto_starting_pose.py
+The python script responsible for the first part of the navigation is named **goto_starting_pose.py**
 The robot starts navigation by using the static map we created in the previous step and also amcl package for correcting the position by creating an point cloud of the possible positions of the robot on the map which is processed probabilistically by using monte-carlo methods and gives a good  approximation of the present state of the robot.
-The file goto_starting_pose.py is responsible for moving to the center of the plateau. When the center point of interest is reached, a true flag is raised at the topic “/we_re_at_the_center”. This topic gives the message to the visual servoing group to start the visual servoing process for precise positioning of the turtlebot in front of the “pick table”. 
+
+The file **goto_starting_pose.py** is responsible for moving the turtlebot to the center of the plateau. When the center point of interest is reached, a true flag is raised at the topic “/we_re_at_the_center”. This topic gives the message to the visual servoing group to start the visual servoing process for precise positioning of the turtlebot in front of the “pick table”. 
 
 At the same time an countdown counter is initialized with duration 300 seconds.
-The counter is implemented in the node alt_pick_message of the script alt_pick_message.py. This node subscribes to the message “/we_re_at_the_center” and starts a countdown counter of 300 seconds.
+The counter is implemented in the node alt_pick_message of the script **alt_pick_message.py**. This node subscribes to the message “/we_re_at_the_center” and starts a countdown counter of 300 seconds.
+
 At the end of this timer the robot will raise a true flag in the topic “/pick_finished_alternative” and continue with the second task of navigation without waiting indefinitely for a true flag in the topic “/pick_finished” to be raised.
+
 In the case that the topic “/pick_finished” has a true flag, it means that the visual servoing and pick operation finished correctly and the turtlebot has to continue for the second part of the navigation task. In this case the node kills itself immediately.
 
-For the correct use of the local and the global frame of coordinates in the file goto_starting_pose.py, we use the function “quaternion_from_euler” to convert the roll,yaw,pitch euler notation into a quaternion and feed it to the move_base function for giving the robot a goal to navigate in the global map frame. At an abstract level, a transform tree defines offsets in terms of both translation and rotation between different coordinate frames.
+For the correct use of the local and the global frame of coordinates in the file **goto_starting_pose.py**, we use the function “quaternion_from_euler” to convert the roll,yaw,pitch euler notation into a quaternion and feed it to the move_base function for giving the robot a goal to navigate in the global map frame. 
+At an abstract level, a transform tree defines offsets in terms of both translation and rotation between different coordinate frames.
+
 At the end of the visual servoing and pick the robot is positioned with its back in front of the pick table. 
 After the pick flag has raised, the robot will move back to the center of the plateau to start the second part of the navigation.
 
 #### Step 4 Navigation from the center to the “place” position
 
  When the pick task has finished and the flag on the topic has been detected, the robot will return to the center position again.
-This task is implemented with return_from_pick_point node.
+This task is implemented with **return_from_pick_point** node.
 This node is similar to “go_to_starting_pose node” and subscribes both to “/pick_finished_alternative” and “/pick_finished” topics.
 When it receives a True flag from one of this topics it returns at the previous position on the center and publishes a topic called “/ready_for_nav_second_task” and sets its flag to True when it reaches its goal.
 At this point we have finished with the first part of the navigation task.
@@ -257,21 +262,27 @@ At this point we have finished with the first part of the navigation task.
 
 In this point the turtlebot is at the center of the plateau. It is time for the turtlebot to disable amcl navigation and start navigation by using ar tags which are provided by the package ar_track_alvar.
 The process of ar_tags creation will be described at the end of this section.
-What we need to know for now is that the turtlebot by using the kinect camera, can detect these printed tags around the robotic plateau and translate their shape at an unique “id”. This tag id will be used after to define the position of the robot in relation with these tags. This is possible because the ar_track_alvar package gives the ability to turtlebot to calculate its pose in relation with the position of each of the tags.
+What we need to know for now is that the turtlebot by using the kinect camera, can detect these printed tags around the robotic plateau and translate their shape at an unique “id”. This tag id will be used after to define the position of the robot in relation with these tags. 
+This is possible because the ar_track_alvar package gives the ability to turtlebot to calculate its pose in relation with the position of each of the tags.
 When the topic “/ready_for_nav_second_task” is published, amcl node is killed and freenect node is enabled.
-At this point the node rotate_for_detection.py is activated. When it receives the True flag in the topic “/ready_for_nav_second_task” where is subscribed, it rotates turtlebot for a full circle at the center point. When the rotation has been finished the rotate_for_detection.py script publishes a true flag at the topic “/rotation_flag”.
-This flag is also used for “tag_pose_localisation” script which starts the tag detection during the rotation of the turtlebot.
-At the end of this rotation the available tags must have been detected.
+
+At this point the node **rotate_for_detection.py** is activated. When it receives the True flag in the topic “/ready_for_nav_second_task” where is subscribed, it rotates turtlebot for a full circle at the center point. 
+
+When the rotation has been finished the **rotate_for_detection.py** script publishes a true flag at the topic “/rotation_flag”.
+This flag is also used for **tag_pose_localisation** node which starts the tag detection during the rotation of the turtlebot.
+At the end of this rotation all the available tags must have been detected.
 
 #### Step 6 the “tag_pose_localisation” node and the ar_tag detection
- In this step we have the “tag_pose_localisation” node active for detecting the existing tags at the robotic plateau.
-This node subscribes at two topics. The first topic is “/rotation_flag” which starts the ar_tag detection when True. The second topic is “/amcl_pose” which gets the last pose of the amcl  navigation and stores it as the current position of the turtlebot.
-The function “get_turtlePose” is a callback for the “/amcl_pose” subscription topic. This function returns the current orientation (z,w,angle) and the position (x,y,z) of the turtlebot.
-At the start of the initialization we launched a launch file called ar_tracker.launch which initializes the alvar tracker node.
+ In this step we have the **tag_pose_localisation** node active for detecting the existing tags at the robotic plateau.
+This node subscribes at two topics. The first topic is “/rotation_flag” which starts the ar_tag detection when True. 
+The second topic is “/amcl_pose” which gets the last pose of the amcl  navigation and stores it as the current position of the turtlebot.
+
+The function “get_turtlePose()” is a callback for the “/amcl_pose” subscription topic. This function returns the current orientation (z,w,angle) and the position (x,y,z) of the turtlebot.
+At the start of the initialization we launched a launch file called **ar_tracker.launch** which initializes the alvar tracker node.
 This launch file also sets the parameters of the tag size and error tolerance for detection.
 
-At this point we have the ar_pose_marker topic initialized from ar_tracker.launch file. This topic returns a message of type “AlvarMarkers” type. 
-This topic has a callback function when a tag is detected with the name get_tag_detection. When a tag is detected, this function is able to read its “id” and also to calculate the position of the tag in relation with the base frame of the turtlebot.
+At this point we have the "/ar_pose_marker" topic initialized from **ar_tracker.launch** file. This topic returns a message of type “AlvarMarkers” type. 
+This topic has a callback function when a tag is detected with the name "get_tag_detection()". When a tag is detected, this function is able to read its “id” and also to calculate the pose of the tag in relation with the base frame of the turtlebot.
 This function is configured to detect three tags with the “id” [0,1,2]. In the case that any other tags exist on the scene, they are simply ignored. These three tags are positioned at these points:
 
 Tag 0 in front of the pick table.
@@ -290,16 +301,17 @@ For this operation we use an transform matrix of the form
 At the end, the “get_tag_detection()” function returns both the tag_ids’ for the tags detected and also their coordinates in the global map reference.
 When each tag is detected, a True flag is raised at the Published topics “/t0_flag”,“/t1_flag”,“/t2_flag”
 
-Our pose coordinates from the function “get_tag_detection” are published in the topics “/target_pose0”,“/target_pose1”,“/target_pose2”.
+Our pose coordinates from the function “get_tag_detection()” are published in the topics “/target_pose0”,“/target_pose1”,“/target_pose2”.
 
 When the three tags are detected, we validate that the turtlebot is aligned with the two of the tags which are positioned in front and the opposite side of the pick table and it also has the position coordinates of the third tag which will help us to set the next navigation goal.
-The next navigation goal will be in front of the third tag. This is the last navigation task and after we have to give control to the visual servoing group. by setting True the flag of the topic “/navigation_finished”.
+The next navigation goal will be in front of the third tag. This is the last part of the navigation task and after we have to give control to the visual servoing group by setting True the flag of the topic “/navigation_finished”.
 For the last navigation goal we created the node last_navigation_goal at the file  last_navigation_goal.py.
-The last_navigation_goal node is subscribed to the “/target_pose1” topic of type PoseStamped. We send this goal to the function goto and the turtlebot will approach the tag as far as the local costmap configuration will allow. By default is 20 centimeters.
+The last_navigation_goal node is subscribed to the “/target_pose1” topic of type PoseStamped.
+We send this goal to the function goto and the turtlebot will approach the tag as far as the local costmap configuration will allow. By default is 20 centimeters.
 When we have reached the goal we publish a true flag to two topics. The first topic is “/we_re_at_the_second_goal_nav” and the second one is “/navigation_finished”.
- The second topic that this node publishes is:  “/we_re_at_the_second_goal_nav”. The node rotate_for_detection is subscribed to this topic and when it gets an True value, the function :
-“rotate_quarter()” is triggered which turns the turtlebot 90 degrees clockwise. At this point the turtlebot must be facing the “place” table and the navigation task is finished.
-After 20 seconds of the raising of this flag, the last_navigation_goal node publishes the last topic “/navigation_finished”   
+ The second topic that this node publishes is:  “/we_re_at_the_second_goal_nav”. The node rotate_for_detection is subscribed to this topic and when it gets an True value, the function “rotate_quarter()” is triggered which turns the turtlebot 90 degrees clockwise. At this point the turtlebot must be facing the “place” table and the navigation task is finished.
+ 
+After 20 seconds of the raising of this flag, the **last_navigation_goal** node publishes the last topic “/navigation_finished”   
 With this topic we can give control to the visual servoing group for precise positioning of the turtlebot in front of the place table. 
 
 # Packages we used
