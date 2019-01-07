@@ -27,19 +27,19 @@ and autonomous operation of turtlebot robotic platform, along with the robotic h
 
 ### Components:
 
-ROS
+**ROS**
 Robot Operating System is robotics middleware initially developed from Willow Garage and Stanford Artificial Intelligence Laboratory. Its first release was at 2007 and its last stable release is Melodic Morenia in May 2018.
 Although ROS is not an operating system, it provides services designed for a heterogeneous computer cluster such as hardware abstraction, low-level device control, implementation of commonly used functionality, message-passing between processes, and package management. The version of ros we will use is “Indigo”, which is old but also stable and feature rich.
 
-Robotic Hand
+**Robotic Hand**
 The PhantomX Pincher  Robot Arm is a 4 degree-of-freedom robotic arm and an easy addition to the TurtleBot ROS robot platform. Its task is pick-and-place operation.
 We have two robotic arms in our Scenario.
 
-Turtlebot 2
+**Turtlebot 2**
 TurtleBot is a low-cost, personal robot kit with open-source software. TurtleBot was created at Willow Garage by Melonee Wise and Tully Foote in November 2010.
 Its task is the autonomous navigation and transfer of an object from the “pick position” to the “place position”
 
-Kinect Sensor
+**Kinect Sensor**
 Kinect is an consumer line motion sensing device developed by Microsoft for Xbox360 and Xbox One platforms and released on November 2010.  Turtlebot is equipped with kinect v1 sensor device.
 Kinect v1 is a cheap but very effective sensor, able to track simultaneously six people and 24 skeletal joints per person. It will used for autonomous localization and tracking using amcl ros package.
 
@@ -49,14 +49,15 @@ Kinect v1 is a cheap but very effective sensor, able to track simultaneously six
 
 Our project resides inside the folder solid_navigation with parent the folder src of the catkin_make environment.
 Inside this folder we can see more folders which separate the different components of our project.
-We have the folder “config” with various parameter configuration files for our scripts.
-We have the folder “maps” which contains the map files for navigation.
-We have the folder “launch” which contains the various initializers of our nodes along with parameter initialization in the form of “.launch” files.
+We have the folder **config** with various parameter configuration files for our scripts.
+We have the folder **maps** which contains the map files for navigation.
+We have the folder **launch** which contains the various initializers of our nodes along with parameter initialization in the form of “.launch” files.
 
-We have the folder “scripts” which contains the python code of our project. The rest of the folders exist as a default skeleton for a project.
+We have the folder **scripts** which contains the python code of our project. The rest of the folders exist as a default skeleton for a project.
+
 On the top of the hierarchy we have also some build files.
-The file “package.xml” describes our package that we created for the project. Inside we passed important parameters required for the sucessful build of the package as dependencies and requirements.
-The file “CMakeLists.txt” has a similar function for compiling succesfully our package by using the cmake build system.
+The file **package.xml** describes the package we created for the project. Inside we stored important parameters required for the sucessful build of the package and also dependencies and requirements.
+The file **CMakeLists.txt** has a similar function for compiling succesfully our package by using the cmake build system.
  
 
 # The Scenario
@@ -85,6 +86,7 @@ Our groups’ responsibility is the autonomous navigation of the turtlebot in th
 The autonomous navigation operation is split in two similar parts.
 In the first part the robot navigates into the plateau until reaching the pick table.
 In the second part, the robot leaves the pick table and approaches the place table for the last part of the collaborative scenario.
+
 Our task of the scenario has also the responsibility to communicate with messages that the goal of approaching each of the tables is reached. Then the Visual Servoing group takes over. It has also to be able to listen to the message from the robotic hand that pick operation is finished for starting the second part of the navigation plan.
 
 As an safety switch, an countdown time counter is implemented in the case that for any reason, there is not message from the robotic hand for ending its task. When time ends, the robot continues with the second part of the navigation task of the scenario. 
@@ -113,8 +115,8 @@ For this reason we have to compensate the various noisy factors by using an proc
 After using rviz visualisation application we were able to get the initial pose coordinates to the map and also the coordinates for our interest points.
 
 Our  points of interest are:
-* The initial position of the robot.
-* The center of the robotic plateau.
+* The initial position of the robot.<br>
+* The center of the robotic plateau.<br> 
 
 #### The navigation path is as follows:
 First the robot gets its initial pose from an configuration script.
@@ -127,7 +129,9 @@ At the same time we start an countdown counter in the case that we don’t recei
 If the counter has reached zero or we have received a message that pick task has finished, the robot has to perform the second task of autonomous navigation.
 
 For this task we have used **ar_track_alvar** package.
-This packages gives us the ability to use Augmented Reality Fiducials in a form of printed marks which are strategically positioned in the plateau to be able to position the robot correctly. We have placed them in front of the tables and also in the position where the robot has to align itself for navigating and giving control for performing the fine positioning.
+This packages gives us the ability to use Augmented Reality Fiducials in a form of printed marks which are strategically positioned in the plateau to be able to position the robot correctly. 
+
+We have placed them in front of the tables and also in the position where the robot has to align itself for navigating and giving control for performing the fine positioning.
 So, by using **ar_track_alvar** package we can know anytime the distance of each tag in reference with the robot coordinate system.
 By using transform operations in our code we can translate the position of the robot in relation with the global frame. This help us to be able to position it autonomously to the points in the map where the robot is ready to continue with the visual servoing and pick-and-place procedure.
 
@@ -139,6 +143,7 @@ After using the coordinates given by the **ar_track_alvar**, the robot moves to 
 Initialization on the turtlebot and workstation
 At first we run some scripts to initialize the turtlebot platform and store the created map
 After sourcing and initializing environmental variables:
+
 At the workstation we initialize ros:
 > roscore
 
@@ -177,12 +182,12 @@ We launch the rviz visualisation application to be able to see what the robot �
 
 This script launches the map server and stores two files into the folder maps. The files are map.yaml and map.pgm. The file map.yaml contains the metadata about our map:
 
-**image: map.pgm**
-**resolution: 0.050000**
-**origin: [-13.800000, -13.800000, 0.000000]**
-**negate: 0**
-**occupied_thresh: 0.65**
-**free_thresh: 0.196**
+**image: map.pgm**<br>
+**resolution: 0.050000** <br>
+**origin: [-13.800000, -13.800000, 0.000000]** <br>
+**negate: 0** <br>
+**occupied_thresh: 0.65** <br>
+**free_thresh: 0.196** <br>
 
 The first line references to the image of the map (map.pgm) and the rest of the map metadata are useful for the turtlebot to interpret it.
 
@@ -235,7 +240,9 @@ in the turtlebot:
 
 At this point we faced a problem.
 We couldn’t find a way to have kinect sensor to work simultaneously in particle filter navigation mode along with camera node.
+
 So for the part of using amcl package we have to launch the respective launch file (amcl_demo.launch). For the part of ar_tag recognition we have to launch freenect.launch.
+
 The solution we found for this conflict was to use roslaunch library and create a python script called launch_manager.py inside scripts folder.
 
 This script manages the launching and killing of the different launch files. 
@@ -306,11 +313,11 @@ This launch file also sets the parameters of the tag size and error tolerance fo
 At this point we have the "/ar_pose_marker" topic initialized from **ar_tracker.launch** file. This topic returns a message of type “AlvarMarkers” type. 
 This topic has a callback function when a tag is detected with the name "get_tag_detection()". When a tag is detected, this function is able to read its “id” and also to calculate the pose of the tag in relation with the base frame of the turtlebot.
 
-This function is configured to detect three tags with the “id” [0,1,2]. In the case that any other tags exist on the scene, they are simply ignored. These three tags are positioned at these points:
+This function is configured to detect three tags with the “id” **[0,1,2]**. In the case that any other tags exist on the scene, they are simply ignored. These three tags are positioned at these points:
 
-Tag 0 in front of the pick table.
-Tag 1 at the point where the robot has to approach and turn to face the place table.
-Tag 2 in the opposite side of the pick table
+**Tag 0** in front of the pick table. <br>
+**Tag 1** at the point where the robot has to approach and turn to face the place table. <br>
+**Tag 2** in the opposite side of the pick table <br>
 
 The function starts a tag counter and stops the detection when all the  referenced ids’ are detected. For each tag detected it raises a flag that it is detected and takes the average of three measurements for calculating the position of it.
 
